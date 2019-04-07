@@ -1,0 +1,6 @@
+entry:
+  minimum_reduction: 0.05
+  maximum_reduction: 0.30
+  stabilization_days: 30
+  period_between_entries: 30
+
