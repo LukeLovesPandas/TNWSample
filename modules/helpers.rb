@@ -3,17 +3,15 @@ require 'active_support/core_ext/numeric/time'
 
 # Generic Helper Methods
 module Helpers
-  def price_string_to_float(price_string)
-    price_string.to_s.sub('$', '').sub(',', '').to_f
+  def price_to_float(price)
+    price.to_s.delete('$').delete(',').to_f
   end
 
   def get_percentage_float(numerator, denominator)
-    (numerator - denominator) / numerator
+    (numerator.to_f - denominator.to_f) / numerator.to_f
   end
 
-  def get_date_time(date_string)
-    DateTime.parse(date_string)
-  rescue StandardError
-    potential_string
+  def get_date_time(parseable_item)
+    DateTime.parse(parseable_item.to_s)
   end
 end

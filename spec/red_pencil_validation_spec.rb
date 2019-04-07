@@ -113,4 +113,109 @@ describe RedPencilValidation do
       expect(validator.within_discounted_price_range?).to be true
     end
   end
+
+  describe 'it validates stability' do
+    it 'has nils initialized for previous date' do
+      latest_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  nil, nil)
+      previous_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  nil, nil)
+      validator = RedPencilValidation.new(latest_entry, previous_entry)
+      expect(validator.has_stable_date?).to be false
+    end
+
+    it 'has a date less then the stability maximum' do
+      one_day_less_than_acceptable = DateTime.now -
+                                     (configurables['stabilization_days'] - 1)
+      latest_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  nil, DateTime.now)
+      previous_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  nil, one_day_less_than_acceptable)
+      validator = RedPencilValidation.new(latest_entry, previous_entry)
+      expect(validator.has_stable_date?).to be false
+    end
+
+    it 'has a date equal to the required stability' do
+      exact_acceptable_date = DateTime.now -
+                              (configurables['stabilization_days'])
+      latest_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  nil, DateTime.now)
+      previous_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  nil, exact_acceptable_date)
+      validator = RedPencilValidation.new(latest_entry, previous_entry)
+      expect(validator.has_stable_date?).to be true
+    end
+
+    it 'has a date greater than the required stability' do
+      more_than_acceptable_date = DateTime.now -
+                              (configurables['stabilization_days'] + 1)
+      latest_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  nil, DateTime.now)
+      previous_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  nil, more_than_acceptable_date)
+      validator = RedPencilValidation.new(latest_entry, previous_entry)
+      expect(validator.has_stable_date?).to be true
+    end
+  end
+
+  describe 'it validates ability to add' do
+    it 'has nils' do
+      validator = RedPencilValidation.new(nil, nil)
+      expect(validator.should_add_red_pencil?).to be false
+    end
+
+    it 'has a valid price reduction but invalid stability' do
+      valid_float = 1.00 - (configurables['maximum_reduction'] - 0.01)
+      previous_price = 100
+      latest_price = previous_price * valid_float
+      latest_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  latest_price, DateTime.now)
+      previous_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  previous_price, DateTime.now)
+      validator = RedPencilValidation.new(latest_entry, previous_entry)
+      expect(validator.should_add_red_pencil?).to be false
+    end
+
+    it 'has a valid price stability but invalid price reduction' do
+      more_than_acceptable_date = DateTime.now -
+                                  (configurables['stabilization_days'] + 1)
+      invalid_float = 1.00 - (configurables['maximum_reduction'] + 0.01)
+      previous_price = 100
+      latest_price = previous_price * invalid_float
+      latest_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  latest_price, DateTime.now)
+      previous_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  previous_price, more_than_acceptable_date)
+      validator = RedPencilValidation.new(latest_entry, previous_entry)
+      expect(validator.should_add_red_pencil?).to be false
+    end
+
+    it 'has both valid price stability and price reduction' do
+      more_than_acceptable_date = DateTime.now -
+                                  (configurables['stabilization_days'] + 1)
+      valid_float = 1.00 - (configurables['maximum_reduction'] - 0.01)
+      previous_price = 100
+      latest_price = previous_price * valid_float
+      latest_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  latest_price, DateTime.now)
+      previous_entry =
+        ItemPriceHistoryEntry.new(SecureRandom.uuid, SecureRandom.uuid,
+                                  previous_price, more_than_acceptable_date)
+      validator = RedPencilValidation.new(latest_entry, previous_entry)
+      expect(validator.should_add_red_pencil?).to be true
+    end
+  end
 end
