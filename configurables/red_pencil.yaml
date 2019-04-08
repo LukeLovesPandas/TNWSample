@@ -3,4 +3,6 @@ entry:
   maximum_reduction: 0.30
   stabilization_days: 30
   period_between_entries: 30
-
+expiration:
+  duration_of_red_pencil: 30
+  maximum_reduction: 0.30

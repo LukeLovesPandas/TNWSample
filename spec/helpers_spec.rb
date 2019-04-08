@@ -22,7 +22,7 @@ describe Helpers do
     end
 
     it 'multiples of both' do
-      expect(test.price_to_float('$$$1,000,000.00')).to eq(1000000.0)
+      expect(test.price_to_float('$$$1,000,000.00')).to eq(1_000_000.0)
     end
 
     it 'handles floats' do
@@ -46,7 +46,8 @@ describe Helpers do
 
   describe 'get_date_time' do
     it 'parses valid date strings' do
-      expect(test.get_date_time('10/10/2019')).to eq(DateTime.parse('10/10/2019'))
+      expect(test.get_date_time('10/10/2019'))
+        .to eq(DateTime.parse('10/10/2019'))
     end
 
     it 'parses valid date time' do
