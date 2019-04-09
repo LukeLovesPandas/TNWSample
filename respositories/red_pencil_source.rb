@@ -1,3 +1,0 @@
-class RedPencilSource
-
-end
