@@ -29,7 +29,7 @@ The validator needs three things to be successful in validation:
 
 These three things are fed in with initialization. Then the logic tree to decide eligibility can begin
 
-  1) Can it potentially add a Red Pencil? It checks by seeing if there are no red pencils for the item OR 30 days has passed since the last red pencil expired
+  - Can it potentially add a Red Pencil? It checks by seeing if there are no red pencils for the item OR 30 days has passed since the last red pencil expired
     - Assuming it passes this check it, it can check the red of the addition conditions. It will NOT add if:
       - Does not have both price histories
       - The item ids between the entries are not equal
@@ -37,15 +37,15 @@ These three things are fed in with initialization. Then the logic tree to decide
       - If the price difference between the two item histories is not reduced in the range of 5 to 30 percent(price change qualifies)
     - If it got past these checks, then it can add. It will add it to the repository for further queries and return true
       - It stores the item id for the item, the price of the previous history item(for further evaluation for expiration based on price), and the latest item history's entry date as its own entry date
-  2) If it cannot add a red pencil, we should check if there is a current red pencil that needs expired. Does the Red Pencil Exist and is it not expired?
+  - If it cannot add a red pencil, we should check if there is a current red pencil that needs expired. Does the Red Pencil Exist and is it not expired?
     - Assuming it passes this check, we need to see if it falls within the expiration conditions. It WILL expire and return false if:
       - The entry date for the Red Pencil is more than 30 days old. Set the expiration date 30 days from the entry date(maximum red pencil duration)
       - The latest price has reduced from the Red Pencil price by more than 30%. Since this was set from the previous item history, we can keep track if it breaks the 30% mark with each new item price history
       - The latest price has increased at all
       - If either of these price changes expire it set the expiration date as the current date time(expires immediately)
-  3) If neither of the previous conditions hit, we need to just check the potential existing Red Pencil entry. Does the Red Pencil exist? Does it have an expiration date?
+  - If neither of the previous conditions hit, we need to just check the potential existing Red Pencil entry. Does the Red Pencil exist? Does it have an expiration date?
     - Assuming this check is passed, we simply return true.
-  4) If none of these hit, we hit an uncovered scenario by the requirements and therefore it is false
+  - If none of these hit, we hit an uncovered scenario by the requirements and therefore it is false
      
 
 ### Installation and Running:
