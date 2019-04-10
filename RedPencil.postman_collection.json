@@ -1,0 +1,230 @@
+{
+	"info": {
+		"_postman_id": "46f29117-9a3c-4a09-aba1-56c79ecd4e73",
+		"name": "RedPencil",
+		"description": "Collection of Postman Calls to interact with the Sinatra RedPencil portion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "All Item History",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4567/item_history/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"item_history",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Item Histories by Item Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4567/item_history/9e2b9cb4-655e-4dcd-9889-203b707de89c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"item_history",
+						"9e2b9cb4-655e-4dcd-9889-203b707de89c"
+					]
+				},
+				"description": "The unique identifier entered in is the item id for entries\n\nIf you are running a new instance, you will need to get an item id from all, as they are randomly generated on initialize"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Item History",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1fadd08a-a421-4695-9335-06c70966a2f1",
+						"exec": [
+							"postman.setEnvironmentVariable(\"now\", new Date().toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"item_id\": \"61ab801c-c03e-4bcd-af16-2d99d49fe0ec\",\n\t\"price\": \"$70\",\n\t\"entrydate\": \"{{now}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4567/item_history",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"item_history"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Red Pencils",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4567/red_pencil/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"red_pencil",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Red Pencils By Item Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4567/red_pencil/2378a5fe-ce6a-4831-b8cc-8b84e993961c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"red_pencil",
+						"2378a5fe-ce6a-4831-b8cc-8b84e993961c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Red Pencil Eligibility",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4567/red_pencil/eligibility/41e93464-5332-40ac-84ba-d13ca64f49bc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"red_pencil",
+						"eligibility",
+						"41e93464-5332-40ac-84ba-d13ca64f49bc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Red Pencil(For testing purposes)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "575d09c2-6a37-4114-a2c3-3bafd349011f",
+						"exec": [
+							"postman.setEnvironmentVariable(\"now\", new Date().toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"item_id\": \"41e93464-5332-40ac-84ba-d13ca64f49bc\",\n\t\"price\": \"$65\",\n\t\"entrydate\": \"{{now}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4567/red_pencil",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"red_pencil"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
