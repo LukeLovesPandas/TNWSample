@@ -3,7 +3,7 @@
 This project is for the code kata found at this link:
 https://stefanroock.wordpress.com/2011/03/04/red-pencil-code-kata/
 
-The solution for this kata will be written in Ruby and tested with RSpec
+The solution for this kata is written in ruby. I used Rspec and Rake to unit test most logic and I used a simple sinatra setup to host the solution
 
 I have translated the kata requirements into what I think is a more logical flow although I am open to change
 
@@ -30,7 +30,7 @@ The validator needs three things to be successful in validation:
 These three things are fed in with initialization. Then the logic tree to decide eligibility can begin
 
   - Can it potentially add a Red Pencil? It checks by seeing if there are no red pencils for the item OR 30 days has passed since the last red pencil expired
-    - Assuming it passes this check it, it can check the red of the addition conditions. It will NOT add if:
+    - Assuming it passes this check it, it can check the rest of the additional conditions. It will NOT add if:
       - Does not have both price histories
       - The item ids between the entries are not equal
       - If there is less than 30 days between the two item histories(price has not been stable for 30 days)
