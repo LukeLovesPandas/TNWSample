@@ -7,4 +7,10 @@ class RedPencilEntry < ItemPriceHistoryEntry
     super(id, item_id, price, entrydate)
     @expirationdate = expirationdate
   end
+
+  def to_hash
+    hash_item = super
+    hash_item[:expirationdate] = @expirationdate
+    hash_item
+  end
 end

@@ -237,6 +237,14 @@ describe RedPencilValidation do
         expect(validator.enough_time_since_last_red_pencil?).to be true
       end
 
+      it 'the last red pencil entry is not expired' do
+        red_pencil_entry =
+          RedPencilEntry.new(SecureRandom.uuid, same_item_id, nil, DateTime.now,
+                             nil)
+        validator = RedPencilValidation.new(nil, nil, red_pencil_entry)
+        expect(validator.enough_time_since_last_red_pencil?).to be true
+      end
+
       it 'the last red pencil entry is less than the allowable entry period' do
         red_pencil_entry =
           RedPencilEntry.new(SecureRandom.uuid, same_item_id, nil, DateTime.now,
@@ -426,6 +434,27 @@ describe RedPencilValidation do
                              DateTime.now)
         validation = RedPencilValidation.new(nil, nil, red_pencil_entry)
         expect(validation.not_expired?).to be false
+      end
+    end
+
+    describe 'checks if exists and active' do
+      it 'does not have a previous red pencil' do
+        validation = RedPencilValidation.new(nil, nil, nil)
+        expect(validation.exists_and_active?).to be false
+      end
+
+      it 'has a red pencil but does have expiration date' do
+        red_pencil_entry =
+        RedPencilEntry.new(SecureRandom.uuid, same_item_id, nil, DateTime.now, DateTime.now)
+        validation = RedPencilValidation.new(nil, nil, red_pencil_entry)
+        expect(validation.exists_and_active?).to be false
+      end
+
+      it 'has a red pencil but does not have expiration date' do
+        red_pencil_entry =
+        RedPencilEntry.new(SecureRandom.uuid, same_item_id, nil, DateTime.now, nil)
+        validation = RedPencilValidation.new(nil, nil, red_pencil_entry)
+        expect(validation.exists_and_active?).to be true
       end
     end
 

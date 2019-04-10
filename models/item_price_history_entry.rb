@@ -7,4 +7,8 @@ class ItemPriceHistoryEntry
     @price = price
     @entrydate = entrydate
   end
+
+  def to_hash
+    {item_id: @item_id, price: @price, entrydate: @entrydate}
+  end
 end

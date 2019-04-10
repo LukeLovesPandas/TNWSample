@@ -2,9 +2,11 @@ require 'securerandom'
 require 'active_support'
 require 'active_support/core_ext/numeric/time'
 require_relative '../models/item_price_history_entry'
+require_relative '../modules/helpers'
 
 # ItemPriceHistory data source
 class ItemPriceHistorySource
+  include Helpers
   def initialize
     connect
     populate
@@ -34,10 +36,10 @@ class ItemPriceHistorySource
   end
 
   def get_item_entries(item_id)
-    @item_price_histories.select { |entry| entry.item_id == item_id }.sort { |entry_one, entry_two|  entry_two.entrydate <=> entry_one.entrydate }
+    @item_price_histories.select { |entry| entry.item_id == item_id }.sort { |entry_one, entry_two|  get_date_time(entry_two.entrydate) <=> get_date_time(entry_one.entrydate) }
   end
 
-  def add(item_price_entry)
-    @item_price_histories.push(ItemPriceHistoryEntry.new(SecureRandom.uuid, item_price_entry.item_id, item_price_entry.price, item_price_entry.entrydate))
+  def add(item_id, price, entrydate)
+    @item_price_histories.push(ItemPriceHistoryEntry.new(SecureRandom.uuid, item_id, price, get_date_time(entrydate)))
   end
 end
