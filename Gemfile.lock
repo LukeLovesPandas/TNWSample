@@ -18,12 +18,16 @@ GEM
     kramdown (1.17.0)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
+    mustermann (1.0.3)
     nokogiri (1.10.2-x64-mingw32)
       mini_portile2 (~> 2.4.0)
     parallel (1.17.0)
     parser (2.6.2.1)
       ast (~> 2.4.0)
     psych (3.1.0-x64-mingw32)
+    rack (2.0.7)
+    rack-protection (2.0.5)
+      rack
     rainbow (3.0.0)
     rake (12.3.2)
     reverse_markdown (1.1.0)
@@ -50,6 +54,11 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.6)
     ruby-progressbar (1.10.0)
+    sinatra (2.0.5)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.5)
+      tilt (~> 2.0)
     solargraph (0.32.0)
       backport (~> 1.0)
       bundler (>= 1.17.2)
@@ -79,6 +88,7 @@ DEPENDENCIES
   rake
   rspec
   rubocop
+  sinatra
   solargraph
 
 BUNDLED WITH
