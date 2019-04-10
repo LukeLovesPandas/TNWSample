@@ -27,7 +27,7 @@ describe RedPencilSource do
     it 'can retrieve all entries for an item_id' do
       source = RedPencilSource.new
       uniq_item_id = SecureRandom.uuid
-      first_multi_entry = RedPencilEntry.new(SecureRandom.uuid, uniq_item_id, "$12", DateTime.now, DateTime.now)
+      first_multi_entry = RedPencilEntry.new(SecureRandom.uuid, uniq_item_id, "$12", DateTime.now.strftime("%m/%d/%Y"), DateTime.now)
       second_multi_entry = RedPencilEntry.new(SecureRandom.uuid, uniq_item_id, "$10", DateTime.now - 30, DateTime.now)
       source.add(RedPencilEntry.new(SecureRandom.uuid, SecureRandom.uuid, "$2", DateTime.now - 10, DateTime.now))
       source.add(first_multi_entry)
@@ -51,7 +51,7 @@ describe RedPencilSource do
       update_entry.price = '$16'
       expect(source.all.last.id).to eq(added_entry_id)
       expect(source.all.last.price).to eq('$14')
-      expect(source.all.last.expirationdate).to eq(update_entry.expirationdate)
+      expect(source.all.last.expirationdate.to_date).to eq(update_entry.expirationdate.to_date)
     end
   end
 end

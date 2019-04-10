@@ -53,7 +53,7 @@ class RedPencilValidation
   end
 
   def enough_time_since_last_red_pencil?
-    (@previous_red_pencil.nil? || DateTime.now >=
+    (@previous_red_pencil.nil? || @previous_red_pencil.expirationdate.nil? || DateTime.now >=
       (get_date_time(@previous_red_pencil.expirationdate) +
       @entry_configurables['stabilization_days']))
   end
@@ -71,6 +71,10 @@ class RedPencilValidation
   def not_expired?
     @previous_red_pencil.nil? || !@previous_red_pencil.nil? &&
       @previous_red_pencil.expirationdate.nil?
+  end
+
+  def exists_and_active?
+    !@previous_red_pencil.nil? && not_expired?
   end
 
   def calculated_expiration_date

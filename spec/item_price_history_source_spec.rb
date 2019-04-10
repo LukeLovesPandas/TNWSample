@@ -39,8 +39,16 @@ describe ItemPriceHistorySource do
     it 'can add entries after instantiation' do
       source = ItemPriceHistorySource.new
       unique_item_id = SecureRandom.uuid
-      source.add(ItemPriceHistoryEntry.new(SecureRandom.uuid, unique_item_id, '3', DateTime.now))
+      source.add(unique_item_id, '3', DateTime.now)
       expect(source.all.last.item_id).to eq(unique_item_id)
+    end
+
+    it 'does not break sorting after adding an entry with different entrydate format' do
+      source = ItemPriceHistorySource.new
+      unique_item_id = SecureRandom.uuid
+      original_count = source.get_item_entries(unique_item_id).length;
+      source.add(unique_item_id, '3', "10/12/2019")
+      expect(source.get_item_entries(unique_item_id).length).to be > original_count
     end
   end
 end
